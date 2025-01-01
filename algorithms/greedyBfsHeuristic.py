@@ -1,37 +1,8 @@
 from collections import deque
-
-def manhattanDistance(a, b):
-    return abs(a[0] - b[0]) + abs(a[1] - b[1])
-
-def bfs(start, goal, grid):
-    rows, cols = len(grid), len(grid[0])
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-
-    queue = deque([(start, [start])])
-    visited = {start}
-    shortest_path = None
-
-    while queue:
-        current, current_path = queue.popleft()
-
-        if current == goal:
-            if shortest_path is None or len(current_path) < len(shortest_path):
-                shortest_path = current_path
-
-        for dx, dy in directions:
-            nx, ny = current[0] + dx, current[1] + dy
-            if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] != "1" and (nx, ny) not in visited:
-                if shortest_path is None or len(current_path) + 1 <= len(shortest_path):
-                    visited.add((nx, ny))
-                    queue.append(((nx, ny), current_path + [(nx, ny)]))
-
-    return shortest_path
-
-def moveInDirection(current, direction):
-    dx, dy = direction
-    return current[0] + dx, current[1] + dy
+from utils.gridAlgorithms import manhattanDistance
 
 def greedy(start, cleanable_tiles, grid):
+    # Greedy BFS + Heuristic
     rows, cols = len(grid), len(grid[0])
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
     cleaned = set()
@@ -71,3 +42,32 @@ def greedy(start, cleanable_tiles, grid):
                     cleaned.add(current)
 
     return path
+
+def bfs(start, goal, grid):
+    rows, cols = len(grid), len(grid[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+
+    queue = deque([(start, [start])])
+    visited = {start}
+    shortest_path = None
+
+    while queue:
+        current, current_path = queue.popleft()
+
+        if current == goal:
+            if shortest_path is None or len(current_path) < len(shortest_path):
+                shortest_path = current_path
+
+        for dx, dy in directions:
+            nx, ny = current[0] + dx, current[1] + dy
+            if 0 <= nx < rows and 0 <= ny < cols and grid[nx][ny] != "1" and (nx, ny) not in visited:
+                if shortest_path is None or len(current_path) + 1 <= len(shortest_path):
+                    visited.add((nx, ny))
+                    queue.append(((nx, ny), current_path + [(nx, ny)]))
+
+    return shortest_path
+
+def moveInDirection(current, direction):
+    dx, dy = direction
+    return current[0] + dx, current[1] + dy
+

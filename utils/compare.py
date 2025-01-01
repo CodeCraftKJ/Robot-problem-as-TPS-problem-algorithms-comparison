@@ -2,17 +2,13 @@ from utils.timeout import runWithTimeout
 import time
 
 
-from utils.timeout import runWithTimeout
-import time
-
-
 def compareAlgorithms(algorithms, start, cleanable_tiles, grid):
     times = {}
     results = {}
 
     for name, algo in algorithms.items():
         start_time = time.perf_counter()
-        result = runWithTimeout(algo, args=(start, cleanable_tiles, grid), timeout=15)
+        result = runWithTimeout(algo, args=(start, cleanable_tiles, grid), timeout=3000)
         end_time = time.perf_counter()
 
         if result == "TIME LIMIT EXCEEDED":

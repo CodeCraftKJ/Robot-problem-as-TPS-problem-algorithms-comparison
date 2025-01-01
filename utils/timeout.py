@@ -1,8 +1,11 @@
 import threading
 from queue import Queue
 
+#TODO
+def runWithTimeout(func, args=(), kwargs=None, timeout=1):
+    if kwargs is None:
+        kwargs = {}
 
-def runWithTimeout(func, args=(), kwargs={}, timeout=15000000000):
     result = Queue()
 
     def wrapper():
@@ -11,6 +14,8 @@ def runWithTimeout(func, args=(), kwargs={}, timeout=15000000000):
     thread = threading.Thread(target=wrapper)
     thread.start()
     thread.join(timeout)
+
     if thread.is_alive():
         return "TIME LIMIT EXCEEDED"
+
     return result.get()

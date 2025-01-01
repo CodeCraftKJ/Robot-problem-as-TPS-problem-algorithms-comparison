@@ -1,14 +1,15 @@
 from utils.grid import displayMultipleGrids, updateGrid
 def displayResults(grid, start, algorithms, results, times):
-
     print("\n[INFO] Wyniki algorytmów (długość ścieżki i czas wykonania):\n")
     for name, result in results.items():
-        if result:
+        if times.get(name) == "TIME LIMIT EXCEEDED":
+            print(f"{name}: TIME LIMIT EXCEEDED")
+        elif result:
             path_length = len(result)
             time_taken = times[name]
             print(f"{name}: Długość: {path_length}, Czas: {time_taken} ms, Ścieżka: {result}")
         else:
-            print(f"{name}: Ścieżka nie została odnaleziona")
+            print(f"{name}: Algorytm nie znalazł ścieżki")
 
     print("\n[INFO] Wizualizacja ścieżek (pozycja początkowa):\n")
     algorithm_names = list(algorithms.keys())

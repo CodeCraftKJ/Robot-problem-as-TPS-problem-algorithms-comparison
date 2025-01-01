@@ -1,12 +1,12 @@
 from heapq import heappush, heappop
-from algorithms.dijkstra import gridToGraph
 from algorithms.greedyBfsHeuristic import manhattanDistance
-
+from utils.gridAlgorithms import gridToGraph
 
 def heuristic(current, remaining):
     return min(manhattanDistance(current, tile) for tile in remaining)
 
 def aStar(start, cleanable_tiles, grid):
+    # AStar
 
     graph = gridToGraph(start, cleanable_tiles, grid)
     all_cleanable = set(cleanable_tiles)

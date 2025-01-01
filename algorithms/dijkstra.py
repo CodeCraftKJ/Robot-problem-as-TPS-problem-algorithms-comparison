@@ -1,27 +1,10 @@
 import heapq
 
-def gridToGraph(start, cleanable_tiles, grid):
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
-    graph = {}
-
-    for r in range(len(grid)):
-        for c in range(len(grid[0])):
-            if grid[r][c] != "1":
-                node = (r, c)
-                neighbors = []
-
-                for dx, dy in directions:
-                    nr, nc = r + dx, c + dy
-                    if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]) and grid[nr][nc] != "1":
-                        neighbors.append((nr, nc))
-
-                if neighbors:
-                    graph[node] = neighbors
-
-    return graph
+from utils.gridAlgorithms import gridToGraph
 
 
 def dijkstra(start, cleanable_tiles, grid):
+    # Dijkstra
     graph = gridToGraph(start, cleanable_tiles, grid)
 
     def find_shortest_path(start, end):
@@ -44,7 +27,7 @@ def dijkstra(start, cleanable_tiles, grid):
 
         return []
 
-    points_to_visit = [start] + cleanable_tiles
+    points_to_visit = cleanable_tiles[:]
 
     total_path = []
     current_point = start
@@ -68,4 +51,4 @@ def dijkstra(start, cleanable_tiles, grid):
             current_point = next_point
             points_to_visit.remove(current_point)
 
-    return total_path
+    return [start]+total_path

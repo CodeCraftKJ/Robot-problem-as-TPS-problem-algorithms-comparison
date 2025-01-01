@@ -1,4 +1,5 @@
 def dfs(start, cleanable_tiles, grid):
+    # DFS with Backtracking
     rows, cols = len(grid), len(grid[0])
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
     visited = set()

@@ -1,28 +1,35 @@
+from algorithms.astar import aStar
 from algorithms.dfsBacktracking import dfs
+from algorithms.dijkstra import dijkstra
 from algorithms.greedyBfsHeuristic import greedy
 from algorithms.tsp import tsp
-from utils.display import displayResults
-from utils.grid import createGrid, findCleanableTitles, getStartingPosition
 from utils.compare import compareAlgorithms
-from algorithms.dijkstra import dijkstra
-from algorithms.astar import aStar
+from utils.display import displayResults
+from utils.grid import findCleanableTitles, getStartingPosition, loadGridFromFile
+import os
+
 
 def main():
-    grid = createGrid()
-    start = getStartingPosition(grid)
-    cleanable_tiles = findCleanableTitles(grid)
+    grid_folder = 'examples'
+    grid_files = [f for f in os.listdir(grid_folder) if f.endswith('.txt')]
 
-    algorithms = {
-        "DFS with Backtracking": dfs,
-        "Greedy BFS + Heuristic": greedy,
-        "Dijkstra": dijkstra,
-        "A* Star": aStar,
-        "TPS Dynamic": tsp
-    }
+    for filename in grid_files:
+        file_path = os.path.join(grid_folder, filename)
 
-    times, results = compareAlgorithms(algorithms, start, cleanable_tiles, grid)
+        grid = loadGridFromFile(file_path)
+        start = getStartingPosition(grid)
+        cleanable_tiles = findCleanableTitles(grid)
 
-    displayResults(grid, start, algorithms, results, times)
+        algorithms = {
+            "DFS": dfs,
+            "Gr/BFS": greedy,
+            "Dijkstra": dijkstra,
+            "A*": aStar,
+            "TPS": tsp
+        }
+
+        times, results = compareAlgorithms(algorithms, start, cleanable_tiles, grid)
+        displayResults(grid, start, algorithms, results, times)
 
 
 if __name__ == "__main__":

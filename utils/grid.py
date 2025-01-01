@@ -1,14 +1,34 @@
+import os
+
 def createGrid():
     return [
-        ["1", "S", " ", " ", " ", " ", " ", " ", " ", "1"],
-        ["1", " ", " ", " ", " ", " ", " ", " ", " ", "1"],
-        ["1", " ", " ", "1", " ", " ", "1", " ", " ", "1"],
-        ["1", " ", " ", " ", " ", " ", " ", " ", " ", "1"],
-        ["1", " ", " ", " ", "1", " ", " ", " ", " ", "1"],
-        ["1", " ", " ", " ", " ", " ", " ", " ", " ", "1"],
-        ["1", " ", "1", " ", " ", " ", " ", "1", " ", "1"],
-        ["1", " ", " ", " ", " ", " ", " ", " ", " ", "1"]
+        ["1", "S", " ", " ", " ", " ", "1"],
+        ["1", "1", " ", "1", "1", "1", "1"],
+        ["1", "1", " ", " ", "1", "1", "1"],
+        ["1", " ", " ", " ", "1", "1", "1"],
     ]
+
+def loadGridFromFile(filename):
+    grid = []
+
+    if not os.path.exists(filename):
+        raise FileNotFoundError(f"File '{filename}' does not exist.")
+
+    with open(filename, 'r') as file:
+        for line in file:
+            # Przetwarzanie linii: zamiana '0' na ' ', pomijanie innych znaków poza '1', 'S', '0'
+            row = [char if char in {'1', 'S'} else (' ' if char == '0' else None) for char in line.rstrip()]
+            # Usuwanie None, które reprezentuje pominięte znaki
+            row = [char for char in row if char is not None]
+            grid.append(row)
+
+    # Sprawdzenie, czy grid jest prostokątem
+    row_lengths = [len(row) for row in grid]
+    if len(set(row_lengths)) > 1:
+        raise ValueError("The grid in the file is not a rectangle.")
+
+    return grid
+
 
 def findCleanableTitles(grid):
     return [(i, j) for i in range(len(grid)) for j in range(len(grid[0])) if grid[i][j] == " "]
