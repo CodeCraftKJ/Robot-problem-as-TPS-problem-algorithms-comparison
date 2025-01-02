@@ -1,7 +1,7 @@
 import threading
 from queue import Queue
 
-#TODO
+
 def runWithTimeout(func, args=(), kwargs=None, timeout=1):
     if kwargs is None:
         kwargs = {}
@@ -9,13 +9,16 @@ def runWithTimeout(func, args=(), kwargs=None, timeout=1):
     result = Queue()
 
     def wrapper():
-        result.put(func(*args, **kwargs))
+        try:
+            result.put(func(*args, **kwargs))
+        except Exception as e:
+            result.put(e)
 
     thread = threading.Thread(target=wrapper)
     thread.start()
     thread.join(timeout)
 
     if thread.is_alive():
-        return "TIME LIMIT EXCEEDED"
+        raise TimeoutError("TIME LIMIT EXCEEDED")
 
     return result.get()

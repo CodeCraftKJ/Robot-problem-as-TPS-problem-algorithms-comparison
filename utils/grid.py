@@ -10,25 +10,17 @@ def createGrid():
 
 def loadGridFromFile(filename):
     grid = []
-
-    if not os.path.exists(filename):
-        raise FileNotFoundError(f"File '{filename}' does not exist.")
-
     with open(filename, 'r') as file:
         for line in file:
-            # Przetwarzanie linii: zamiana '0' na ' ', pomijanie innych znaków poza '1', 'S', '0'
             row = [char if char in {'1', 'S'} else (' ' if char == '0' else None) for char in line.rstrip()]
-            # Usuwanie None, które reprezentuje pominięte znaki
             row = [char for char in row if char is not None]
             grid.append(row)
 
-    # Sprawdzenie, czy grid jest prostokątem
     row_lengths = [len(row) for row in grid]
     if len(set(row_lengths)) > 1:
-        raise ValueError("The grid in the file is not a rectangle.")
+        raise ValueError("Przypadek musi być prostokątny!")
 
     return grid
-
 
 def findCleanableTitles(grid):
     return [(i, j) for i in range(len(grid)) for j in range(len(grid[0])) if grid[i][j] == " "]
@@ -64,3 +56,6 @@ def displayMultipleGrids(grids, original_grid, algorithm_names):
         print(row_to_print.rstrip())
 
     print()
+def getExampleFiles():
+    folder = 'examples'
+    return [os.path.join(folder, f) for f in os.listdir(folder) if f.endswith('.txt')]
