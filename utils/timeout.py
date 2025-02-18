@@ -1,8 +1,9 @@
 import threading
 from queue import Queue
+TIMEOUT = 15
 
 
-def runWithTimeout(func, args=(), kwargs=None, timeout=1):
+def runWithTimeout(func, args=(), kwargs=None, timeout=TIMEOUT):
     if kwargs is None:
         kwargs = {}
 

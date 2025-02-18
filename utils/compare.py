@@ -10,7 +10,7 @@ def compareAlgorithms(algorithms, start, cleanable_tiles, grid):
         start_time = time.perf_counter()
 
         try:
-            result = runWithTimeout(algo, args=(start, cleanable_tiles, grid), timeout=10)
+            result = runWithTimeout(algo, args=(start, cleanable_tiles, grid))
             end_time = time.perf_counter()
             times[name] = round((end_time - start_time) * 1000, 2)
             results[name] = result

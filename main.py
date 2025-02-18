@@ -10,7 +10,6 @@ from utils.grid import findCleanableTitles, getStartingPosition, loadGridFromFil
 def main():
     examples = getExampleFiles()
     for example in examples:
-
         grid = loadGridFromFile(example)
         start = getStartingPosition(grid)
         cleanable_tiles = findCleanableTitles(grid)
@@ -25,6 +24,7 @@ def main():
 
         times, results = compareAlgorithms(algorithms, start, cleanable_tiles, grid)
         displayResults(grid, start, algorithms, results, times)
+
 
 if __name__ == "__main__":
     main()

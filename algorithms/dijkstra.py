@@ -51,4 +51,6 @@ def dijkstra(start, cleanable_tiles, grid):
             current_point = next_point
             points_to_visit.remove(current_point)
 
+    if set(cleanable_tiles) != set(total_path):
+        return None
     return [start]+total_path
